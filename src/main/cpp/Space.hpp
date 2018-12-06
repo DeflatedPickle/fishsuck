@@ -1,9 +1,12 @@
 #pragma once
 
+#include <vector>
 #include "glm/vec3.hpp"
-#include "main/cpp/shapes/BaseShape.hpp"
 
 namespace FishSuck {
+    // Defines the body ahead of time, since the file requires Space, but Space requires the Body
+    class Body;
+
     /**
      * A space for physics to be simulated in.
      */
@@ -11,10 +14,18 @@ namespace FishSuck {
     public:
         /**
          * @param gravity
-         * @param drag
+         * @param positional_drag
+         * @param angular_drag
          * @param sleep_time
          */
-        explicit Space(glm::vec3 gravity, glm::vec3 drag, float sleep_time);
+        explicit Space(glm::vec3 gravity, glm::vec3 positional_drag, glm::vec3 angular_drag, float sleep_time);
+
+        glm::vec3 gravity;
+        glm::vec3 positional_drag;
+        glm::vec3 angular_drag;
+        float sleep_time;
+
+        std::vector<FishSuck::Body *> bodyList;
 
         /**
          * Starts the simulation.
@@ -23,7 +34,5 @@ namespace FishSuck {
          */
         void start(float speed);
 
-    private:
-        FishSuck::Shape::BaseShape* shapeList;
     };
 }

@@ -1,15 +1,23 @@
 #pragma once
 
 #include <glm/vec3.hpp>
-#include "main/cpp/shapes/BaseShape.hpp"
+#include <main/cpp/bounds/BaseBounds.hpp>
 #include "Space.hpp"
 
 namespace FishSuck {
     class Body {
     public:
-        Body(FishSuck::Shape::BaseShape *shape, FishSuck::Space *space);
-        Shape::BaseShape *shape;
+        Body(FishSuck::Bounds::BaseBounds *shape, FishSuck::Space *space);
+
+        FishSuck::Bounds::BaseBounds *shape;
         FishSuck::Space *space;
+
+        glm::vec3 gravity;
+        glm::vec3 positional_drag;
+        glm::vec3 angular_drag;
+        float sleep_time;
+
+        bool is_awake;
 
         /**
          * The mass of the body.
@@ -51,6 +59,9 @@ namespace FishSuck {
          * @param z
          */
         void addForce(float x, float y, float z);
+
+        glm::vec3 getForce();
+
         /**
          * Add given amounts of torque to the body on each axis.
          *
