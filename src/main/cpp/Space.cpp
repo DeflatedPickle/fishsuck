@@ -16,31 +16,36 @@ FishSuck::Space::Space(glm::vec3 gravity, glm::vec3 positional_drag, glm::vec3 a
 }
 
 void FishSuck::Space::start(float speed) {
-    // FIXME: This doesn't work with multiple bodies
-    for (FishSuck::Body *body : this->bodyList) {
-        int limit = 10;
+    int limit = 10;
 
-        // FIXME: This isn't how delta time works
-        float delta = 1.0f / speed;
-        auto last = chrono::high_resolution_clock::now();
+    while (true) {
+        for (FishSuck::Body *body : this->bodyList) {
 
-        while (body->is_awake) {
-            auto current = chrono::high_resolution_clock::now();
-            auto dur = current - last;
-            auto milliseconds = chrono::duration_cast<chrono::milliseconds>(dur).count();
+            // FIXME: This isn't how delta time works
+            float delta = 1.0f / speed;
+            // auto last = chrono::high_resolution_clock::now();
 
-            delta = milliseconds / speed;
+            if (body->is_awake) {
+                // auto current = chrono::high_resolution_clock::now();
+                // auto dur = current - last;
+                // auto milliseconds = chrono::duration_cast<chrono::milliseconds>(dur).count();
 
-            body->position += (body->positional_velocity * body->gravity) * delta;
-            body->positional_velocity += (body->getForce() / body->mass) * delta;
+                // delta = milliseconds / speed;
 
-            body->shape->position = body->position;
+                auto acceleration = body->getForce() / body->mass;
 
-            cout << &body << " " << "Position Y: " << body->position.y << " Positional Velocity Y: " << body->positional_velocity.y
-                 << endl;
+                body->positional_velocity += (acceleration * body->gravity) * delta;
+                body->position += body->positional_velocity * delta;
 
-            limit--;
-            if (limit == 0) break;
+                body->shape->position = body->position;
+
+                cout << &body << " " << "Position Y: " << body->position.y << " Positional Velocity Y: "
+                     << body->positional_velocity.y
+                     << endl;
+            }
         }
+
+        limit--;
+        if (limit == 0) break;
     }
 }
