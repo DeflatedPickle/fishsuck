@@ -1,0 +1,13 @@
+{
+	"authors": [
+		"DeflatedPickle"
+	],
+	"copyright": "Copyright © 2019, DeflatedPickle",
+	"dependencies": {
+		"gl3n": "~>1.3.1",
+		"nice-curses": "~>0.2.5"
+	},
+	"description": "It's a physics engine.",
+	"license": "BSD 3-Clause",
+	"name": "fishsuck"
+}
