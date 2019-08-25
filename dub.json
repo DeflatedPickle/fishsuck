@@ -4,10 +4,16 @@
 	],
 	"copyright": "Copyright © 2019, DeflatedPickle",
 	"dependencies": {
-		"gl3n": "~>1.3.1",
-		"nice-curses": "~>0.2.5"
+		"bindbc-glfw": "~>0.6.0",
+		"bindbc-opengl": "~>0.9.0",
+		"gl3n": "~>1.3.1"
 	},
 	"description": "It's a physics engine.",
 	"license": "BSD 3-Clause",
-	"name": "fishsuck"
+	"name": "fishsuck",
+	"versions": [
+		"GLFW_33",
+		"GL_11",
+		"GL_AllowDeprecated"
+	]
 }

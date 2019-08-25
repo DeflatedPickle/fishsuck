@@ -1,13 +1,11 @@
+import gl3n.linalg;
+
 import shape;
 
 class Rectangle : Shape {
-    float width;
-    float height;
-    float length;
+    vec3 size;
 
-    this(float width, float height, float length) {
-        this.width = width;
-        this.height = height;
-        this.length = length;
+    this(vec3 size) {
+        this.size = size;
     }
 }
