@@ -9,6 +9,8 @@ class Shape {
     vec3 position = vec3(0, 0, 0);
     vec3 rotation = vec3(0, 0, 0);
 
+    float volume;
+
     Body body_;
 
     void render(Renderer renderer) {

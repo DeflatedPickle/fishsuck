@@ -14,7 +14,7 @@ class Body {
     vec3 position;
     vec3 rotation;
 
-    vec3 force = vec3(0, 1, 0);
+    vec3 force = vec3(0, 0, 0);
     vec3 torque = vec3(0, 0, 0);
 
     vec3 initial_position;
@@ -34,5 +34,8 @@ class Body {
     void reset() {
         this.position = this.initial_position;
         this.rotation = this.initial_rotation;
+
+        this.force = vec3(0, 0, 0);
+        this.torque = vec3(0, 0, 0);
     }
 }

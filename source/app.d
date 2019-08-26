@@ -16,13 +16,15 @@ import opengl;
 
 // TODO: Move the example to an `example/` folder
 void main() {
-	auto world = new Space(vec3(0, 1, 0), vec3(0, 0, 0), vec3(0, 0, 0), -1, new OpenGL());
 	auto entity = new Body(vec3(0, 0, 0), vec3(0, 0, 0), new Rectangle(vec3(4, 4, 4)));
+
+	auto world = new Space(vec3(0, 0.1f, 0), vec3(0, 0, 0), vec3(0, 0, 0), 1f, -1, new OpenGL());
+	world.resetFunction = { entity.force = vec3(0, 0.1f, 0); };
 	world.bodyList ~= entity;
 
 	new Thread({
 		// World Thread
-		world.mainLoop(40, true);
+		world.mainLoop(1000, true);
 	}).start();
 
 	new Thread({

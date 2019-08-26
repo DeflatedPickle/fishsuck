@@ -5,23 +5,30 @@ import renderer;
 
 class Space {
     Body[] bodyList;
+    void delegate() resetFunction;
 
     vec3 gravity;
     vec3 positional_drag;
     vec3 angular_drag;
+    float step_time;
     float sleep_time;
     // TODO: Could be a list
     Renderer renderer;
 
-    this(vec3 gravity, vec3 positional_drag, vec3 angular_drag, float sleep_time, Renderer renderer) {
+    this(vec3 gravity, vec3 positional_drag, vec3 angular_drag, float step_time, float sleep_time, Renderer renderer) {
         this.gravity = gravity;
         this.positional_drag = positional_drag;
         this.angular_drag = angular_drag;
+        this.step_time = step_time;
         this.sleep_time = sleep_time;
         this.renderer = renderer;
     }
 
     void mainLoop(int max_steps = -1, bool loop = false) {
+        if (loop) {
+            this.resetFunction();
+        }
+
         int counter;
 
         while (true) {
@@ -30,14 +37,31 @@ class Space {
 
             foreach (body_; this.bodyList) {
                 if (body_.is_awake) {
-                    auto acceleration = body_.force / body_.mass;
+                    import std.stdio;
 
+                    auto weight = body_.mass * this.gravity * delta;
+                    auto density = body_.mass / body_.shapeList[0].volume * delta;
+
+                    writeln("Weight: ", weight, ", Force: ", body_.force);
                     auto velocity = vec3(
-                        (acceleration.x * this.gravity.x) * delta,
-                        (acceleration.y * this.gravity.y) * delta,
-                        (acceleration.z * this.gravity.z) * delta
-                    );
-                    body_.position += velocity;
+                        weight.x * body_.force.x * delta,
+                        weight.y * body_.force.y * delta,
+                        weight.z * body_.force.z * delta
+                    ) * delta;
+                    writeln("Velocity: ", velocity);
+
+                    auto acceleration = velocity / this.step_time;
+                    writeln("Acceleration: ", acceleration);
+
+                    auto drag = vec3(
+                        density * (velocity.x * velocity.x) * delta,
+                        density * (velocity.y * velocity.y) * delta,
+                        density * (velocity.z * velocity.z) * delta,
+                    ) / 2;
+                    body_.force -= drag;
+                    writeln("Drag: ", drag);
+
+                    body_.position += acceleration;
                 }
             }
 
@@ -53,6 +77,7 @@ class Space {
                         foreach (body_; this.bodyList) {
                             body_.reset();
                         }
+                        this.resetFunction();
                     }
                 }
             }

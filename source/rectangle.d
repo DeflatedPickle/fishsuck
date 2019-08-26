@@ -8,6 +8,7 @@ class Rectangle : Shape {
 
     this(vec3 size) {
         this.size = size;
+        this.volume = size.z * size.x * size.y;
     }
 
     override void render(Renderer renderer) {
