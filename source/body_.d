@@ -26,6 +26,7 @@ class Body {
         this.reset();
 
         foreach (shape; shapeList) {
+            shape.body_ = this;
             this.shapeList ~= shape;
         }
     }

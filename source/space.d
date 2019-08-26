@@ -1,6 +1,7 @@
 import gl3n.linalg;
 
 import body_;
+import renderer;
 
 class Space {
     Body[] bodyList;
@@ -9,12 +10,15 @@ class Space {
     vec3 positional_drag;
     vec3 angular_drag;
     float sleep_time;
+    // TODO: Could be a list
+    Renderer renderer;
 
-    this(vec3 gravity, vec3 positional_drag, vec3 angular_drag, float sleep_time) {
+    this(vec3 gravity, vec3 positional_drag, vec3 angular_drag, float sleep_time, Renderer renderer) {
         this.gravity = gravity;
         this.positional_drag = positional_drag;
         this.angular_drag = angular_drag;
         this.sleep_time = sleep_time;
+        this.renderer = renderer;
     }
 
     void mainLoop(int max_steps = -1, bool loop = false) {
@@ -51,6 +55,14 @@ class Space {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    void render() {
+        foreach (body_; this.bodyList) {
+            foreach (shape; body_.shapeList) {
+                shape.render(this.renderer);
             }
         }
     }

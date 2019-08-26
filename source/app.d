@@ -12,10 +12,11 @@ import bindbc.opengl;
 import space;
 import body_;
 import rectangle;
+import opengl;
 
 // TODO: Move the example to an `example/` folder
 void main() {
-	auto world = new Space(vec3(0, 1, 0), vec3(0, 0, 0), vec3(0, 0, 0), -1);
+	auto world = new Space(vec3(0, 1, 0), vec3(0, 0, 0), vec3(0, 0, 0), -1, new OpenGL());
 	auto entity = new Body(vec3(0, 0, 0), vec3(0, 0, 0), new Rectangle(vec3(4, 4, 4)));
 	world.bodyList ~= entity;
 
@@ -59,26 +60,12 @@ void main() {
 	    glMatrixMode(GL_MODELVIEW);
 
 	    while (!glfwWindowShouldClose(window)) {
+			glClearColor(0.25, 0.25, 0.25, 1);
+
 	        glClear(GL_COLOR_BUFFER_BIT);
         	glMatrixMode(GL_MODELVIEW);
-        	glClearColor(0.25, 0.25, 0.25, 0);
 
-			foreach (body_; world.bodyList) {
-				foreach (shape; body_.shapeList) {
-					switch (typeid(shape).toString()) {
-						case "rectangle.Rectangle":
-							auto rect = cast(Rectangle) shape;
-							glBegin(GL_POLYGON);
-							glVertex2f(body_.position.x / 10, body_.position.y / 10); // Bottom left
-							glVertex2f(body_.position.x / 10 + rect.size.x / 10, body_.position.y / 10); // Bottom right
-							glVertex2f(body_.position.x / 10 + rect.size.x / 10, body_.position.y / 10 + rect.size.y / 10); // Top right
-							glVertex2f(body_.position.x / 10, body_.position.y / 10 + rect.size.y / 10); // Top left
-							glEnd();
-						default:
-							break;
-					}
-				}
-			}
+			world.render();
 
 	        glfwSwapBuffers(window);
 	        glfwPollEvents();
