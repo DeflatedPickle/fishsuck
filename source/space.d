@@ -42,12 +42,9 @@ class Space {
                     auto weight = body_.mass * this.gravity * delta;
                     auto density = body_.mass / body_.shapeList[0].volume * delta;
 
-                    writeln("Weight: ", weight, ", Force: ", body_.force);
-                    auto velocity = vec3(
-                        weight.x * body_.force.x * delta,
-                        weight.y * body_.force.y * delta,
-                        weight.z * body_.force.z * delta
-                    ) * delta;
+                    body_.force += this.gravity;
+                    writeln("Weight: ", weight, " Density: ", density, ", Force: ", body_.force);
+                    auto velocity = density * body_.force * delta;
                     writeln("Velocity: ", velocity);
 
                     auto acceleration = velocity / this.step_time;

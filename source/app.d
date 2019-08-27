@@ -18,8 +18,8 @@ import opengl;
 void main() {
 	auto entity = new Body(vec3(0, 0, 0), vec3(0, 0, 0), new Rectangle(vec3(4, 4, 4)));
 
-	auto world = new Space(vec3(0, 0.1f, 0), vec3(0, 0, 0), vec3(0, 0, 0), 1f, -1, new OpenGL());
-	world.resetFunction = { entity.force = vec3(0, 0.1f, 0); };
+	auto world = new Space(vec3(0, 0.01f, 0), vec3(0, 0, 0), vec3(0, 0, 0), 1f, -1, new OpenGL());
+	world.resetFunction = { entity.force = vec3(0.6f, 0, 0); };
 	world.bodyList ~= entity;
 
 	new Thread({
