@@ -2,9 +2,11 @@ import std.uuid;
 
 import gl3n.linalg;
 
+import primitive;
 import shape;
+import path;
 
-class Body {
+class Body : Primitive {
     Shape[] shapeList;
 
     auto is_awake = true;
@@ -12,9 +14,6 @@ class Body {
     float mass = 1f;
     vec3 moment_of_inertia = vec3(0, 0, 0);
     vec3 centre_of_gravity = vec3(0, 0, 0);
-
-    vec3 position;
-    vec3 rotation;
 
     vec3 force = vec3(0, 0, 0);
     vec3 torque = vec3(0, 0, 0);

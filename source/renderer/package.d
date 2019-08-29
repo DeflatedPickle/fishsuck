@@ -1,9 +1,9 @@
-module render;
+module renderer;
 
 class Renderer {
     float scale = 1f;
 
-    void begin() {
+    void begin(bool filled = true) {
     }
 
     void end() {

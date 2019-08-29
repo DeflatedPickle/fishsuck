@@ -1,14 +1,19 @@
-module render.opengl;
+module renderer.opengl;
 
 import bindbc.opengl;
 
-import render;
+import renderer;
 
 class OpenGL : Renderer {
     float scale = 0.1f;
 
-    override void begin() {
-        glBegin(GL_POLYGON);
+    override void begin(bool filled = true) {
+        if (filled) {
+            glBegin(GL_POLYGON);
+        }
+        else {
+            glBegin(GL_LINE_LOOP);
+        }
     }
 
     override void end() {

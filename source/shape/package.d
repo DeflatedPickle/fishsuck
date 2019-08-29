@@ -3,10 +3,11 @@ module shape;
 import gl3n.linalg;
 import gl3n.aabb;
 
+import primitive;
 import body_;
-import render;
+import renderer;
 
-class Shape {
+class Shape : Primitive {
     auto is_solid = true;
 
     AABB bounding_box;
@@ -19,7 +20,4 @@ class Shape {
     Body body_;
 
     vec3 size;
-
-    void render(Renderer renderer) {
-    }
 }

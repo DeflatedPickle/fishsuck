@@ -12,19 +12,24 @@ import bindbc.opengl;
 import space;
 import body_;
 import shape.rectangle;
-import render.opengl;
+import renderer.opengl;
+import path.polygon;
 
 // TODO: Move the example to an `example/` folder
 void main() {
-	auto world = new Space(vec3(0, 0, 0), vec3(0, 0, 0), vec3(0, 0, 0), 1f, -1, new OpenGL());
+	auto world = new Space(vec3(0, 0, 0), vec3(0, 0, 0), vec3(0, 0, 0), -1, new OpenGL());
+
+	auto path = new path.polygon.Polygon(0.02f, vec3(0, 0, 0), vec3(6, 6, 6), 64);
+	world.primitiveList ~= path;
 
 	auto entity = new Body(vec3(0, 0, 0), vec3(0, 0, 4f), new Rectangle(vec3(4, 4, 4)));
-	world.resetFunction = { entity.force = vec3(0, 0, 0); };
+	// world.resetFunction = { entity.force = vec3(0, 0, 0); };
 	world.bodyList ~= entity;
+	path.bodyList ~= entity;
 
 	new Thread({
 		// World Thread
-		world.mainLoop(1000, true);
+		world.mainLoop(1f, 1000, true);
 	}).start();
 
 	new Thread({

@@ -4,7 +4,7 @@ import gl3n.linalg;
 import gl3n.aabb;
 
 import shape;
-import render;
+import renderer;
 
 class Rectangle : Shape {
     this(vec3 size) {
