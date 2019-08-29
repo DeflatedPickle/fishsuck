@@ -1,3 +1,5 @@
+import std.uuid;
+
 import gl3n.linalg;
 
 import shape;
@@ -20,6 +22,8 @@ class Body {
     vec3 initial_position;
     vec3 initial_rotation;
 
+    UUID uuid;
+
     this(vec3 position, vec3 rotation, Shape[] shapeList...) {
         this.initial_position = position;
         this.initial_rotation = rotation;
@@ -29,6 +33,8 @@ class Body {
             shape.body_ = this;
             this.shapeList ~= shape;
         }
+
+        this.uuid = randomUUID();
     }
 
     void reset() {

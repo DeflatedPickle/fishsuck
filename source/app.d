@@ -11,15 +11,15 @@ import bindbc.opengl;
 
 import space;
 import body_;
-import rectangle;
-import opengl;
+import shape.rectangle;
+import render.opengl;
 
 // TODO: Move the example to an `example/` folder
 void main() {
-	auto entity = new Body(vec3(0, 0, 0), vec3(0, 0, 0), new Rectangle(vec3(4, 4, 4)));
+	auto world = new Space(vec3(0, 0, 0), vec3(0, 0, 0), vec3(0, 0, 0), 1f, -1, new OpenGL());
 
-	auto world = new Space(vec3(0, 0.01f, 0), vec3(0, 0, 0), vec3(0, 0, 0), 1f, -1, new OpenGL());
-	world.resetFunction = { entity.force = vec3(0.6f, 0, 0); };
+	auto entity = new Body(vec3(0, 0, 0), vec3(0, 0, 4f), new Rectangle(vec3(4, 4, 4)));
+	world.resetFunction = { entity.force = vec3(0, 0, 0); };
 	world.bodyList ~= entity;
 
 	new Thread({
@@ -59,6 +59,7 @@ void main() {
 	    glShadeModel(GL_SMOOTH);
 	    glMatrixMode(GL_PROJECTION);
 	    glLoadIdentity();
+		glOrtho(-1, 1, 1, -1, -1, 1);
 	    glMatrixMode(GL_MODELVIEW);
 
 	    while (!glfwWindowShouldClose(window)) {
@@ -73,6 +74,7 @@ void main() {
 	        glfwPollEvents();
 	    }
 
+		world.run = false;
 	    glfwTerminate();
 	}).start();
 }

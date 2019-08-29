@@ -1,3 +1,5 @@
+module render;
+
 class Renderer {
     float scale = 1f;
 

@@ -1,6 +1,8 @@
+module render.opengl;
+
 import bindbc.opengl;
 
-import renderer;
+import render;
 
 class OpenGL : Renderer {
     float scale = 0.1f;

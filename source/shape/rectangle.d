@@ -1,19 +1,21 @@
+module shape.rectangle;
+
 import gl3n.linalg;
+import gl3n.aabb;
 
 import shape;
-import renderer;
+import render;
 
 class Rectangle : Shape {
-    vec3 size;
-
     this(vec3 size) {
         this.size = size;
         this.volume = size.z * size.x * size.y;
+        this.bounding_box = AABB(this.position, this.size);
     }
 
     override void render(Renderer renderer) {
-        auto x = this.body_.position.x + this.position.x;
-        auto y = this.body_.position.y + this.position.y;
+        auto x = this.body_.position.x + this.position.x - this.size.x / 2;
+        auto y = this.body_.position.y + this.position.y - this.size.y / 2;
 
         renderer.begin();
 

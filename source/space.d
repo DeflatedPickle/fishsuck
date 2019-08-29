@@ -1,7 +1,9 @@
+import std.algorithm.iteration;
+
 import gl3n.linalg;
 
 import body_;
-import renderer;
+import render;
 
 class Space {
     Body[] bodyList;
@@ -14,6 +16,8 @@ class Space {
     float sleep_time;
     // TODO: Could be a list
     Renderer renderer;
+
+    bool run = true;
 
     this(vec3 gravity, vec3 positional_drag, vec3 angular_drag, float step_time, float sleep_time, Renderer renderer) {
         this.gravity = gravity;
@@ -31,7 +35,7 @@ class Space {
 
         int counter;
 
-        while (true) {
+        while (this.run) {
             // TODO: Proper delta time
             auto delta = 1f;
 
@@ -40,7 +44,7 @@ class Space {
                     import std.stdio;
 
                     auto weight = body_.mass * this.gravity * delta;
-                    auto density = body_.mass / body_.shapeList[0].volume * delta;
+                    auto density = body_.mass / sum(map!(shape => shape.volume)(body_.shapeList)) * delta;
 
                     body_.force += this.gravity;
                     writeln("Weight: ", weight, " Density: ", density, ", Force: ", body_.force);
