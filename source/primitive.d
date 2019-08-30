@@ -7,6 +7,9 @@ class Primitive {
     vec3 rotation;
     vec3 scale;
 
+    void reset() {
+    }
+
     void update(float delta) {
     }
 

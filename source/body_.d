@@ -36,7 +36,7 @@ class Body : Primitive {
         this.uuid = randomUUID();
     }
 
-    void reset() {
+    override void reset() {
         this.position = this.initial_position;
         this.rotation = this.initial_rotation;
 
