@@ -4,7 +4,6 @@ import gl3n.linalg;
 import gl3n.aabb;
 
 import primitive;
-import body_;
 import renderer;
 
 class Shape : Primitive {
@@ -14,10 +13,19 @@ class Shape : Primitive {
 
     vec3 position = vec3(0, 0, 0);
     vec3 rotation = vec3(0, 0, 0);
+    vec3 scale = vec3(0, 0, 0);
 
     float volume;
 
-    Body body_;
+    Primitive primitive;
 
-    vec3 size;
+    vec3[] pointList;
+
+    override void render(Renderer renderer) {
+        foreach (point; this.pointList) {
+            renderer.vertex(this.primitive.position.x + point.x, this.primitive.position.y + point.y);
+        }
+
+        renderer.end();
+    }
 }

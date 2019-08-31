@@ -5,6 +5,7 @@ import gl3n.linalg;
 import primitive;
 import shape;
 import path;
+import renderer;
 
 class Body : Primitive {
     Shape[] shapeList;
@@ -29,7 +30,7 @@ class Body : Primitive {
         this.reset();
 
         foreach (shape; shapeList) {
-            shape.body_ = this;
+            shape.primitive = this;
             this.shapeList ~= shape;
         }
 
@@ -42,5 +43,12 @@ class Body : Primitive {
 
         this.force = vec3(0, 0, 0);
         this.torque = vec3(0, 0, 0);
+    }
+
+    override void render(Renderer renderer) {
+        foreach (shape; this.shapeList) {
+            renderer.begin();
+            shape.render(renderer);
+        }
     }
 }

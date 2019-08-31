@@ -12,14 +12,15 @@ import bindbc.opengl;
 import space;
 import body_;
 import shape.rectangle;
+import shape.polygon;
 import renderer.opengl;
-import path.polygon;
+import path;
 
 // TODO: Move the example to an `example/` folder
 void main() {
 	auto world = new Space(vec3(0, 0, 0), vec3(0, 0, 0), vec3(0, 0, 0), -1);
 
-	auto path = new path.polygon.Polygon(0.02f, vec3(0, 0, 0), vec3(6, 6, 6), 64);
+	auto path = new Path(vec3(0, 0, 0), 0.02f, new Polygon(vec3(6, 6, 6), 64));
 	world.primitiveList ~= path;
 
 	auto entity = new Body(vec3(0, 0, 0), vec3(0, 0, 4f), new Rectangle(vec3(4, 4, 4)));
@@ -33,7 +34,7 @@ void main() {
 		// World Thread#
 		while (run) {
 			world.update(1f);
-			Thread.sleep(1.msecs);
+			Thread.sleep(40.msecs);
 		}
 	}).start();
 

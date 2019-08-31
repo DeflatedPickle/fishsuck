@@ -68,9 +68,7 @@ class Space : Primitive {
         }
 
         foreach (body_; this.bodyList) {
-            foreach (shape; body_.shapeList) {
-                shape.render(renderer);
-            }
+            body_.render(renderer);
         }
     }
 }

@@ -7,23 +7,17 @@ import shape;
 import renderer;
 
 class Rectangle : Shape {
-    this(vec3 size) {
-        this.size = size;
-        this.volume = size.z * size.x * size.y;
-        this.bounding_box = AABB(this.position, this.size);
-    }
+    this(vec3 scale) {
+        this.scale = scale;
+        this.volume = this.scale.z * this.scale.x * this.scale.y;
+        this.bounding_box = AABB(this.position, this.scale);
 
-    override void render(Renderer renderer) {
-        auto x = this.body_.position.x + this.position.x - this.size.x / 2;
-        auto y = this.body_.position.y + this.position.y - this.size.y / 2;
+        auto x = this.position.x - this.scale.x / 2;
+        auto y = this.position.y - this.scale.y / 2;
 
-        renderer.begin();
-
-        renderer.vertex(x, y);
-        renderer.vertex(x + this.size.x, y);
-        renderer.vertex(x + this.size.x, y + this.size.y);
-        renderer.vertex(x, y + this.size.y);
-
-        renderer.end();
+        this.pointList ~= vec3(x, y, 0);
+        this.pointList ~= vec3(x + this.scale.x, y, 0);
+        this.pointList ~= vec3(x + this.scale.x, y + this.scale.y, 0);
+        this.pointList ~= vec3(x, y + this.scale.y, 0);
     }
 }
