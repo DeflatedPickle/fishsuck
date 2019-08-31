@@ -18,15 +18,19 @@ import path;
 
 // TODO: Move the example to an `example/` folder
 void main() {
-	auto world = new Space(vec3(0, 0, 0), vec3(0, 0, 0), vec3(0, 0, 0), -1);
+	auto world = new Space(vec3(0, 2f, 0), vec3(0, 0, 0), vec3(0, 0, 0), -1);
 
-	auto path = new Path(vec3(0, 0, 0), 0.02f, new Polygon(vec3(6, 6, 6), 64));
-	world.primitiveList ~= path;
+	// auto path = new Path(vec3(0, 0, 0), 0.02f, new Polygon(vec3(4, 8, 6), 64));
+	// world.primitiveList ~= path;
 
-	auto entity = new Body(vec3(0, 0, 0), vec3(0, 0, 4f), new Rectangle(vec3(4, 4, 4)));
+	auto entity = new Body(vec3(0, 0, 0), vec3(0, 0, 0), new Rectangle(vec3(4, 4, 4)));
 	// world.resetFunction = { entity.force = vec3(0, 0, 0); };
 	world.bodyList ~= entity;
-	path.bodyList ~= entity;
+	// path.bodyList ~= entity;
+
+	auto ground = new Body(vec3(0, 10, 0), vec3(0, 0, 0), new Rectangle(vec3(12, 1, 1)));
+	ground.mass = 0;
+	world.bodyList ~= ground;
 
 	auto run = true;
 

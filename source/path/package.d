@@ -30,7 +30,7 @@ class Path : Primitive {
 
     override void update(float delta) {
         foreach (body_; this.bodyList) {
-            body_.position = interp(this.shape.pointList[this.currentPoint], this.shape.pointList[this.nextPoint], this.speed * delta);
+            body_.position = interp(this.position + this.shape.pointList[this.currentPoint], this.position + this.shape.pointList[this.nextPoint], this.speed * delta);
         }
 
         if (this.nextPoint < this.shape.pointList.length - 1) {

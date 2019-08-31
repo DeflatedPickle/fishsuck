@@ -10,7 +10,6 @@ class Rectangle : Shape {
     this(vec3 scale) {
         this.scale = scale;
         this.volume = this.scale.z * this.scale.x * this.scale.y;
-        this.bounding_box = AABB(this.position, this.scale);
 
         auto x = this.position.x - this.scale.x / 2;
         auto y = this.position.y - this.scale.y / 2;

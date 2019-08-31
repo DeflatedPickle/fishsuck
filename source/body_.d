@@ -1,6 +1,10 @@
 import std.uuid;
 
+import std.algorithm;
+
 import gl3n.linalg;
+
+import sat;
 
 import primitive;
 import shape;
@@ -9,6 +13,7 @@ import renderer;
 
 class Body : Primitive {
     Shape[] shapeList;
+    sat.Polygon collision_mask;
 
     auto is_awake = true;
 
@@ -29,10 +34,17 @@ class Body : Primitive {
         this.initial_rotation = rotation;
         this.reset();
 
+        vec2[] vertices;
         foreach (shape; shapeList) {
             shape.primitive = this;
             this.shapeList ~= shape;
+
+            foreach (vertex; shape.pointList) {
+                vertices ~= vec2(vertex.x, vertex.y);
+            }
         }
+
+        this.collision_mask = Polygon(vertices);
 
         this.uuid = randomUUID();
     }
