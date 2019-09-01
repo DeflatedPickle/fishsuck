@@ -1,5 +1,6 @@
 import std.uuid;
 
+import std.stdio;
 import std.algorithm;
 
 import gl3n.linalg;
@@ -10,6 +11,7 @@ import primitive;
 import shape;
 import path;
 import renderer;
+import space;
 
 class Body : Primitive {
     Shape[] shapeList;
@@ -26,6 +28,8 @@ class Body : Primitive {
 
     vec3 initial_position;
     vec3 initial_rotation;
+
+    Space space;
 
     UUID uuid;
 
@@ -55,6 +59,28 @@ class Body : Primitive {
 
         this.force = vec3(0, 0, 0);
         this.torque = vec3(0, 0, 0);
+    }
+
+    override void update(float delta) {
+        if (this.is_awake) {
+            auto weight = this.mass * this.space.gravity * delta;
+            auto density = this.mass / sum(map!(shape => shape.volume)(this.shapeList));
+
+            this.force += this.space.gravity;
+            writeln("Weight: ", weight, " Density: ", density, ", Force: ", this.force);
+            auto velocity = density * this.force * delta;
+            writeln("Velocity: ", velocity);
+
+            auto drag = vec3(
+                density * (velocity.x * velocity.x) * delta,
+                density * (velocity.y * velocity.y) * delta,
+                density * (velocity.z * velocity.z) * delta,
+            ) / 2;
+            this.force -= drag;
+            writeln("Drag: ", drag);
+
+            this.position += velocity;
+        }
     }
 
     override void render(Renderer renderer) {

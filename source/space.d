@@ -1,6 +1,5 @@
 import std.algorithm.iteration;
 import std.datetime;
-import std.stdio;
 
 import gl3n.linalg;
 
@@ -40,25 +39,7 @@ class Space : Primitive {
         }
 
         foreach (body_; this.bodyList) {
-            if (body_.is_awake) {
-                auto weight = body_.mass * this.gravity * delta;
-                auto density = body_.mass / sum(map!(shape => shape.volume)(body_.shapeList));
-
-                body_.force += this.gravity;
-                writeln("Weight: ", weight, " Density: ", density, ", Force: ", body_.force);
-                auto velocity = density * body_.force * delta;
-                writeln("Velocity: ", velocity);
-
-                auto drag = vec3(
-                    density * (velocity.x * velocity.x) * delta,
-                    density * (velocity.y * velocity.y) * delta,
-                    density * (velocity.z * velocity.z) * delta,
-                ) / 2;
-                body_.force -= drag;
-                writeln("Drag: ", drag);
-
-                body_.position += velocity;
-            }
+            body_.update(delta);
         }
     }
 

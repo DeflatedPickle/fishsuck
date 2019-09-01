@@ -24,11 +24,13 @@ void main() {
 	// world.primitiveList ~= path;
 
 	auto entity = new Body(vec3(0, 0, 0), vec3(0, 0, 0), new Rectangle(vec3(4, 4, 4)));
+	entity.space = world;
 	// world.resetFunction = { entity.force = vec3(0, 0, 0); };
 	world.bodyList ~= entity;
 	// path.bodyList ~= entity;
 
 	auto ground = new Body(vec3(0, 10, 0), vec3(0, 0, 0), new Rectangle(vec3(12, 1, 1)));
+	ground.space = world;
 	ground.mass = 0;
 	world.bodyList ~= ground;
 
