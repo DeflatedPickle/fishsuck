@@ -22,7 +22,5 @@ class Shape : Primitive {
         foreach (point; this.pointList) {
             renderer.vertex(this.primitive.position.x + point.x, this.primitive.position.y + point.y);
         }
-
-        renderer.end();
     }
 }
