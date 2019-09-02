@@ -12,6 +12,7 @@ import shape;
 import path;
 import renderer;
 import space;
+import util.colour;
 
 class Body : Primitive {
     Shape[] shapeList;
@@ -86,7 +87,16 @@ class Body : Primitive {
     override void render(Renderer renderer) {
         foreach (shape; this.shapeList) {
             renderer.begin();
+            renderer.colour(Colour.WHITE);
             shape.render(renderer);
+            renderer.end();
         }
+
+        renderer.begin(false);
+        renderer.colour(Colour.RED);
+        foreach (vertex; this.collision_mask.vertices) {
+            renderer.vertex(this.position.x + vertex.x, this.position.y + vertex.y);
+        }
+        renderer.end();
     }
 }

@@ -5,6 +5,7 @@ import std.conv;
 import nice.curses;
 
 import renderer;
+import util.colour;
 
 class NCurses : Renderer {
     float scale = 1f;
@@ -26,5 +27,8 @@ class NCurses : Renderer {
 
     override void vertex(float x, float y) {
         this.window.addch(this.height / 2 + roundTo!int(y) - roundTo!int(y) / 2, this.width / 2 + roundTo!int(x) - roundTo!int(x) / 2, '#');
+    }
+
+    override void colour(Colour colour) {
     }
 }
