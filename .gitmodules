@@ -1,0 +1,6 @@
+[submodule "libs/bellatrix"]
+	path = libs/bellatrix
+	url = https://github.com/DeflatedPickle/bellatrix
+[submodule "libs/marvin"]
+	path = libs/marvin
+	url = https://github.com/DeflatedPickle/marvin

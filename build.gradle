@@ -1,0 +1,115 @@
+plugins {
+    id 'java'
+    id 'org.jetbrains.kotlin.multiplatform'
+    id "org.jetbrains.kotlin.plugin.serialization"
+
+    id "com.diffplug.gradle.spotless"
+}
+
+group "$group"
+archivesBaseName = "$name"
+version "$version"
+
+repositories {
+    mavenCentral()
+
+    maven { url 'https://jitpack.io' }
+}
+
+kotlin {
+    jvm()
+    js {
+        nodejs()
+        browser()
+    }
+    linuxX64 {
+        binaries {
+            sharedLib()
+            staticLib()
+        }
+    }
+    macosX64 {
+        binaries {
+            sharedLib()
+            staticLib()
+            framework()
+        }
+    }
+    mingwX64 {
+        binaries {
+            sharedLib()
+            staticLib()
+        }
+    }
+    wasm32()
+
+    sourceSets {
+        all {
+            languageSettings.useExperimentalAnnotation("kotlin.RequiresOptIn")
+        }
+
+        commonMain {
+            dependencies {
+                implementation kotlin('stdlib-common')
+                implementation kotlin('test-common')
+                implementation kotlin('test-annotations-common')
+
+                implementation "com.deflatedpickle:bellatrix"
+            }
+        }
+
+        jvmMain {
+            dependencies {
+                implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+                implementation "org.jetbrains.kotlin:kotlin-reflect:1.5.30"
+                // implementation "io.github.gciatto:kt-math-jvm:${ktMath}"
+
+                implementation kotlin('stdlib-jdk8')
+                implementation kotlin('test-junit')
+
+                // GLFW
+                implementation "org.lwjgl:lwjgl:3.2.3"
+                implementation "org.lwjgl:lwjgl-opengl:3.2.3"
+                implementation "org.lwjgl:lwjgl-glfw:3.2.3"
+
+                runtimeOnly "org.lwjgl:lwjgl:3.2.3:natives-windows"
+                runtimeOnly "org.lwjgl:lwjgl-opengl:3.2.3:natives-windows"
+                runtimeOnly "org.lwjgl:lwjgl-glfw:3.2.3:natives-windows"
+
+                runtimeOnly "org.lwjgl:lwjgl:3.2.3:natives-macos"
+                runtimeOnly "org.lwjgl:lwjgl-opengl:3.2.3:natives-macos"
+                runtimeOnly "org.lwjgl:lwjgl-glfw:3.2.3:natives-macos"
+
+                runtimeOnly "org.lwjgl:lwjgl:3.2.3:natives-linux"
+                runtimeOnly "org.lwjgl:lwjgl-opengl:3.2.3:natives-linux"
+                runtimeOnly "org.lwjgl:lwjgl-glfw:3.2.3:natives-linux"
+
+                // Curses
+                implementation "io.webfolder:curses4j:1.1.0"
+
+                // Lanterna
+                implementation 'com.googlecode.lanterna:lanterna:3.1.1'
+            }
+        }
+
+        jsMain {
+            dependencies {
+                implementation kotlin('stdlib-js')
+                implementation kotlin('test-js')
+            }
+        }
+    }
+}
+
+wrapper {
+    gradleVersion = "$gradleVersion"
+    distributionType = "ALL"
+}
+
+spotless {
+    kotlin {
+        ktlint()
+
+        licenseHeader "$licenseHeader\n\n"
+    }
+}
